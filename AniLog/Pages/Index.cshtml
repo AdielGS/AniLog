@@ -1,0 +1,93 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home - ANILOG";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>ANILOG <small class="text-muted fs-5">| Meu Catálogo</small></h1>
+        <a asp-page="/Animes/Create" class="btn btn-primary">+ Adicionar Novo</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h3 class="h5 mb-0">🍿 Já Assistidos (@Model.Assistidos.Count)</h3>
+                </div>
+                <div class="card-body">
+                    @if (!Model.Assistidos.Any())
+                    {
+                        <p class="text-muted">Nenhum anime assistido ainda.</p>
+                    }
+                    else
+                    {
+                        <div class="row row-cols-1 row-cols-sm-2 g-3">
+                            @foreach (var item in Model.Assistidos)
+                            {
+                                <div class="col">
+                                    <div class="card h-100 border-0 shadow-xs text-center position-relative">
+                                        <img src="@item.ImagemUrl" class="card-img-top mx-auto mt-2 rounded shadow-sm" style="width: 120px; height: 170px; object-fit: cover;" alt="Capa" />
+                                        <div class="card-body p-2 d-flex flex-column justify-content-between">
+                                            <h6 class="card-title text-truncate mb-1" title="@item.Titulo">@item.Titulo</h6>
+                                            <div class="text-warning mb-2">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    <span>@(i <= item.Nota ? "★" : "☆")</span>
+                                                }
+                                            </div>
+                                            <form method="post" asp-page-handler="Deletar" asp-route-id="@item.Id" onsubmit="return confirm('Tem certeza que deseja remover @item.Titulo do seu registro?');">
+                                                <button type="submit" class="btn btn-outline-danger btn-sm w-100">🗑️ Remover</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h3 class="h5 mb-0">📌 Lista de Desejos / Quero Assistir (@Model.QueroAssistir.Count)</h3>
+                </div>
+                <div class="card-body">
+                    @if (!Model.QueroAssistir.Any())
+                    {
+                        <p class="text-muted">Sua lista de desejos está vazia.</p>
+                    }
+                    else
+                    {
+                        <div class="row row-cols-1 row-cols-sm-2 g-3">
+                            @foreach (var item in Model.QueroAssistir)
+                            {
+                                <div class="col">
+                                    <div class="card h-100 border-0 shadow-xs text-center">
+                                        <img src="@item.ImagemUrl" class="card-img-top mx-auto mt-2 rounded shadow-sm" style="width: 120px; height: 170px; object-fit: cover;" alt="Capa" />
+                                        <div class="card-body p-2 d-flex flex-column justify-content-between">
+                                            <h6 class="card-title text-truncate mb-1" title="@item.Titulo">@item.Titulo</h6>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary">Aguardando</span>
+                                            </div>
+                                            <div class="d-flex gap-2 mt-2">
+                                                <a asp-page="/Animes/Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm w-50">✏️ Editar</a>
+
+                                                <form method="post" asp-page-handler="Deletar" asp-route-id="@item.Id" onsubmit="return confirm('Tem certeza?');" class="w-50">
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm w-100">🗑️ Remover </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

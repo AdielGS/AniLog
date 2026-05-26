@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AniLog</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+
+    <style>
+        :root {
+            --bg-principal: #ffffff;
+            --bg-subtil: #f8fafc;
+            --texto-escuro: #0f172a;
+            --texto-mutado: #64748b;
+            --borda-suave: #f1f5f9;
+            --borda-foco: #e2e8f0;
+            --indigo-moderno: #4f46e5;
+            --indigo-hover: #4338ca;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-principal);
+            color: var(--texto-escuro);
+            letter-spacing: -0.01em;
+        }
+
+        /* Navbar Minimalista Premium */
+        .navbar {
+            background-color: var(--bg-principal) !important;
+            border-bottom: 1px solid var(--borda-suave);
+            padding: 1.25rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--texto-escuro) !important;
+            letter-spacing: -0.03em;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--texto-mutado) !important;
+            transition: color 0.2s ease;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+        }
+
+            .nav-link:hover {
+                color: var(--texto-escuro) !important;
+                background-color: var(--bg-subtil);
+            }
+
+        /* Customização dos Cards do Catálogo */
+        .card {
+            background-color: var(--bg-principal);
+            border: 1px solid var(--borda-suave) !important;
+            border-radius: 20px !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+            .card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 24px rgba(0,0,0,0.04) !important;
+                border-color: var(--borda-foco) !important;
+            }
+
+        /* Cabeçalhos de seção limpos */
+        .section-title {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--texto-escuro);
+        }
+
+        /* Elementos de Formulário Redesenhados */
+        .form-control, .form-select {
+            background-color: var(--bg-subtil);
+            border: 1px solid var(--borda-suave);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            color: var(--texto-escuro);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+            .form-control:focus, .form-select:focus {
+                background-color: var(--bg-principal);
+                border-color: var(--indigo-moderno);
+                box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+            }
+
+        /* Botões Estilo App Moderno */
+        .btn-primary {
+            background-color: var(--indigo-moderno);
+            border-color: var(--indigo-moderno);
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+            .btn-primary:hover {
+                background-color: var(--indigo-hover);
+                border-color: var(--indigo-hover);
+            }
+
+        .btn-outline-danger {
+            border-radius: 10px;
+            border-color: #fee2e2;
+            background-color: #fff5f5;
+            color: #ef4444;
+        }
+
+            .btn-outline-danger:hover {
+                background-color: #ef4444;
+                border-color: #ef4444;
+                color: #ffffff;
+            }
+
+        .btn-outline-secondary {
+            border-radius: 10px;
+            border-color: var(--borda-suave);
+            color: var(--texto-mutado);
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: var(--bg-subtil);
+                color: var(--texto-escuro);
+                border-color: var(--borda-foco);
+            }
+
+        /* Imagens de capa com proporção perfeita */
+        .img-capa-grid {
+            border-radius: 14px;
+            object-fit: cover;
+            aspect-ratio: 2 / 3;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        /* Footer discreto e fixo abaixo */
+        footer {
+            background-color: var(--bg-principal);
+            border-top: 1px solid var(--borda-suave);
+            color: var(--texto-mutado);
+            padding: 2rem 0;
+            margin-top: 5rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md mb-4">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-page="/Index">
+                    <span>✨ ANILOG</span>
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-page="/Index">Meu Catálogo</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="animate-fade-in">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+        <div class="container text-center text-md-start d-md-flex justify-content-between align-items-center">
+            <p class="mb-0">&copy; 2026 - <strong>AniLog</strong>. Organização pessoal de mídias.</p>
+            <p class="mb-0 text-muted small">Projeto Interdisciplinar IV</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AniLog", "AniLog\AniLog.csproj", "{445C6A5D-47A4-4777-AFA2-D2567A9B8C0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{445C6A5D-47A4-4777-AFA2-D2567A9B8C0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{445C6A5D-47A4-4777-AFA2-D2567A9B8C0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{445C6A5D-47A4-4777-AFA2-D2567A9B8C0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{445C6A5D-47A4-4777-AFA2-D2567A9B8C0D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31AF5DD7-0088-403F-ACC7-3084F6841A93}
+	EndGlobalSection
+EndGlobal
