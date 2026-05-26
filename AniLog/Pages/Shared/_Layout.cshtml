@@ -163,10 +163,31 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto gap-1">
-                        <li class="nav-item">
-                            <a class="nav-link active" asp-page="/Index">Meu Catálogo</a>
-                        </li>
+                    <ul class="navbar-nav ms-auto gap-2 align-items-center">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="text-dark small fw-medium me-2">Olá, @User.Identity.Name</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Index">Meu Catálogo</a>
+                            </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link fw-bold text-primary" asp-page="/Admin/Usuarios">Painel Admin</a>
+                                </li>
+                            }
+                            <li class="nav-item">
+                                <a class="btn btn-sm btn-outline-secondary px-3" asp-page="/Autenticacao/Logout">Sair</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-sm btn-primary px-3" asp-page="/Autenticacao/Login">Entrar</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

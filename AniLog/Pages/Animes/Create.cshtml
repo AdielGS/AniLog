@@ -18,7 +18,7 @@
             <div class="mb-3 position-relative">
                 <label class="form-label fw-semibold">Título do Anime ou Filme</label>
                 <input type="text" asp-for="Anime.Titulo" id="tituloAnime" class="form-control" placeholder="Busque o nome em inglês/romaji..." autocomplete="off" oninput="buscarSugesoes()" required />
-
+                
                 <ul id="listaSugestoes" class="list-group position-absolute w-100 shadow-sm" style="z-index: 1000; max-height: 250px; overflow-y: auto; display: none;"></ul>
             </div>
 
@@ -55,33 +55,12 @@
 </div>
 
 <style>
-    .rating {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: flex-end;
-    }
-
-        .rating input {
-            display: none;
-        }
-
-        .rating label {
-            font-size: 1.8rem;
-            color: #e2e8f0;
-            cursor: pointer;
-        }
-
-            .rating input:checked ~ label, .rating label:hover, .rating label:hover ~ label {
-                color: #ffca08;
-            }
-
-    #listaSugestoes .list-group-item {
-        cursor: pointer;
-    }
-
-        #listaSugestoes .list-group-item:hover {
-            background-color: #f8fafc;
-        }
+    .rating { display: flex; flex-direction: row-reverse; justify-content: flex-end; }
+    .rating input { display: none; }
+    .rating label { font-size: 1.8rem; color: #e2e8f0; cursor: pointer; }
+    .rating input:checked ~ label, .rating label:hover, .rating label:hover ~ label { color: #ffca08; }
+    #listaSugestoes .list-group-item { cursor: pointer; }
+    #listaSugestoes .list-group-item:hover { background-color: #f8fafc; }
 </style>
 
 <script>
@@ -110,14 +89,14 @@
                         const li = document.createElement('li');
                         li.className = 'list-group-item d-flex align-items-center gap-2';
                         li.innerHTML = `<img src="${anime.images.jpg.small_image_url}" style="width:35px; height:50px; object-fit:cover;" class="rounded"/> <span>${anime.title}</span>`;
-
+                        
                         // Ao clicar na sugestão da lista
                         li.onclick = () => {
                             document.getElementById('tituloAnime').value = anime.title;
                             document.getElementById('previewCapa').src = anime.images.jpg.image_url;
                             document.getElementById('imagemUrl').value = anime.images.jpg.image_url;
                             lista.style.display = 'none';
-
+                            
                             // Libera o botão salvar já que o nome é válido
                             document.getElementById('btnSalvar').disabled = false;
                             document.getElementById('btnSalvar').innerText = "Salvar no Registro";
