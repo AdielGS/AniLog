@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using AniLog.Data;
 using AniLog.Models;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AniLog.Pages.Animes
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;

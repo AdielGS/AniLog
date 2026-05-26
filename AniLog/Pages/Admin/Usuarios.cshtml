@@ -1,0 +1,51 @@
+﻿@page
+@model AniLog.Pages.Admin.UsuariosModel
+@{
+    ViewData["Title"] = "Gestão de Utilizadores";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm p-4">
+        <h2 class="fw-bold text-dark mb-1">Administração do Sistema</h2>
+        <p class="text-muted small mb-4">Listagem geral de contas ativas e controlo de perfis.</p>
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr class="text-muted small">
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Nível de Acesso</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.ListaUsuarios)
+                    {
+                        <tr>
+                            <td><strong class="text-dark">@user.Nome</strong></td>
+                            <td class="text-muted">@user.Email</td>
+                            <td>
+                                <span class="badge @(user.Perfil == "Admin" ? "bg-dark" : "bg-light text-dark") border">
+                                    @user.Perfil
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                @if (user.Id.ToString() != User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value)
+                                {
+                                    <form method="post" asp-page-handler="DeletarUsuario" asp-route-id="@user.Id" onsubmit="return confirm('Tem certeza de que deseja eliminar permanentemente este utilizador e todo o seu catálogo?');" style="display:inline;">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">Excluir Conta</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">Sua Conta</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
