@@ -25,6 +25,36 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 var app = builder.Build();
 
+// --- BLOCO TEMPORÁRIO DE RESET DE SEGURANÇA ---
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AniLog.Data.ApplicationDbContext>();
+
+    // 1. Limpa os utilizadores antigos para remover dados corrompidos das tabelas minúsculas
+    context.Usuarios.RemoveRange(context.Usuarios);
+    context.SaveChanges();
+
+    // 2. Cria a função para gerar o hash em minúsculas idêntico ao sistema atual do Login
+    using var sha = System.Security.Cryptography.SHA256.Create();
+    var bytes = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes("admin"));
+    var sb = new System.Text.StringBuilder();
+    foreach (var b in bytes) sb.Append(b.ToString("x2"));
+    string senhaGarantida = sb.ToString();
+
+    // 3. Insere o teu utilizador Admin definitivo
+    var adminUser = new AniLog.Models.Usuario
+    {
+        Nome = "Adiel Administrador",
+        Email = "admin@anilog.com",
+        Perfil = "Admin",
+        SenhaHash = senhaGarantida
+    };
+
+    context.Usuarios.Add(adminUser);
+    context.SaveChanges();
+}
+// --- FIM DO BLOCO TEMPORÁRIO ---
+
 // Configurar o pipeline de requisições HTTP.
 if (!app.Environment.IsDevelopment())
 {

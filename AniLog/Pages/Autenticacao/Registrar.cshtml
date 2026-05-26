@@ -6,28 +6,32 @@
 
 <div class="container mt-5" style="max-width: 450px;">
     <div class="card shadow-sm p-4">
-        <h3 class="fw-bold mb-1">Criar Conta</h3>
-        <p class="text-muted small mb-4">Registe-se para iniciar o seu catálogo de mídias.</p>
+        <h3 class="fw-bold mb-1 text-center">Criar Conta</h3>
+        <p class="text-muted small mb-4 text-center">Registe-se para iniciar o seu catálogo.</p>
 
         @if (!string.IsNullOrEmpty(Model.MensagemErro))
         {
-            <div class="alert alert-danger py-2 text-sm">@Model.MensagemErro</div>
+            <div class="alert alert-danger py-2 small text-center">@Model.MensagemErro</div>
         }
 
-        <form method="post">
+        <form method="post" asp-page="/Autenticacao/Registrar">
             <div class="mb-3">
                 <label class="form-label fw-semibold">Nome Completo</label>
                 <input type="text" asp-for="Input.Nome" class="form-control" required />
             </div>
+
             <div class="mb-3">
                 <label class="form-label fw-semibold">E-mail</label>
                 <input type="email" asp-for="Input.Email" class="form-control" required />
             </div>
+
             <div class="mb-3">
                 <label class="form-label fw-semibold">Senha</label>
                 <input type="password" asp-for="Input.Senha" class="form-control" required />
             </div>
+
             <button type="submit" class="btn btn-primary w-100 py-2 shadow-sm mb-3">Concluir Registo</button>
+
             <div class="text-center">
                 <a asp-page="/Autenticacao/Login" class="text-decoration-none small text-muted">Já tem uma conta? Entre aqui</a>
             </div>

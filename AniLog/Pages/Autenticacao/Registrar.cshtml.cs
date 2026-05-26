@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniLog.Pages.Autenticacao
 {
+    [IgnoreAntiforgeryToken(Order = 1001)]
     public class RegistrarModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -58,7 +59,14 @@ namespace AniLog.Pages.Autenticacao
         {
             using var sha = SHA256.Create();
             var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(senha));
-            return Convert.ToHexString(bytes);
+
+            // CORREÇÃO: Força letras minúsculas idêntico ao que o Login lê
+            StringBuilder builder = new StringBuilder();
+            foreach (var b in bytes)
+            {
+                builder.Append(b.ToString("x2"));
+            }
+            return builder.ToString();
         }
     }
 }
