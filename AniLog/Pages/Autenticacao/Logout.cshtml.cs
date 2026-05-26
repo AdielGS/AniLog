@@ -9,24 +9,24 @@ namespace AniLog.Pages.Autenticacao
     [IgnoreAntiforgeryToken(Order = 1001)]
     public class LogoutModel : PageModel
     {
-        // Se o usuário acessar via link direto
+        // Caso o utilizador clique no link direto (Método GET)
         public async Task<IActionResult> OnGetAsync()
         {
-            return await EfetuarLogout();
+            return await ExecutarLogoutAsync();
         }
 
-        // Se o usuário acessar via botão/post
+        // Caso o formulário envie uma requisição (Método POST)
         public async Task<IActionResult> OnPostAsync()
         {
-            return await EfetuarLogout();
+            return await ExecutarLogoutAsync();
         }
 
-        private async Task<IActionResult> EfetuarLogout()
+        private async Task<IActionResult> ExecutarLogoutAsync()
         {
-            // Limpa o cookie de autenticação do navegador de forma definitiva
+            // Destrói o Cookie de Autenticação gravado no navegador do utilizador
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            // Redireciona para a tela de Login limpa
+            // Redireciona o utilizador de volta para a página de Login limpa
             return RedirectToPage("/Autenticacao/Login");
         }
     }
