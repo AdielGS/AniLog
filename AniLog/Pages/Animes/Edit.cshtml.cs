@@ -5,6 +5,7 @@ using AniLog.Data;
 using AniLog.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace AniLog.Pages.Animes
 {
@@ -31,6 +32,25 @@ namespace AniLog.Pages.Animes
 
         public async Task<IActionResult> OnPostAsync()
         {
+            // 1. Recupera o ID do usuário que está logado na sessão atual de cookies
+            var usuarioIdLogado = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(usuarioIdLogado) || !int.TryParse(usuarioIdLogado, out int usuarioId))
+            {
+                return RedirectToPage("/Autenticacao/Login");
+            }
+
+            // 2. Garante por segurança que o UsuarioId do anime que está sendo editado é o mesmo de quem está logado
+            Anime.UsuarioId = usuarioId;
+
+            // Remove referências de objetos virtuais para evitar conflitos no Entity Framework
+            ModelState.Remove("Anime.Usuario");
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            // Informa ao Entity Framework para anexar e atualizar o registro modificado no PostgreSQL
             _context.Attach(Anime).State = EntityState.Modified;
 
             try
@@ -39,8 +59,14 @@ namespace AniLog.Pages.Animes
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.Animes.Any(e => e.Id == Anime.Id)) return NotFound();
-                else throw;
+                if (!_context.Animes.Any(e => e.Id == Anime.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return RedirectToPage("/Index");
