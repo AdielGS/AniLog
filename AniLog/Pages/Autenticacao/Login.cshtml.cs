@@ -13,19 +13,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AniLog.Pages.Autenticacao
 {
-    [IgnoreAntiforgeryToken] // Adicione esta linha aqui para blindar o envio local
+    [IgnoreAntiforgeryToken(Order = 1001)]
     public class LoginModel : PageModel
     {
         private readonly ApplicationDbContext _context;
         public LoginModel(ApplicationDbContext context) => _context = context;
 
-        [BindProperty] public string Email { get; set; }
-        [BindProperty] public string Senha { get; set; }
+        [BindProperty]
+        public string Email { get; set; }
+
+        [BindProperty]
+        public string Senha { get; set; }
+
         public string MensagemErro { get; set; }
 
         public void OnGet()
         {
-            // Limpa mensagens anteriores ao carregar a página pura
             MensagemErro = string.Empty;
         }
 
@@ -44,7 +47,6 @@ namespace AniLog.Pages.Autenticacao
 
             if (usuario == null)
             {
-                // Se cair aqui, a página IRÁ RECARREGAR e mostrar a mensagem amigável na tela
                 MensagemErro = "E-mail ou senha incorretos.";
                 return Page();
             }

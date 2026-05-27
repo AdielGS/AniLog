@@ -108,4 +108,41 @@
             } catch (e) { console.error(e); }
         }, 400);
     }
+    @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Monitoriza quando o utilizador tira o foco (clica fora) do campo de Título
+        document.getElementById("Anime_Titulo").addEventListener("blur", async function () {
+            const titulo = this.value.trim();
+            if (titulo.length < 3) return; // Só procura se tiver digitado pelo menos 3 letras
+
+            try {
+                // Faz a chamada à API pública do MyAnimeList (Jikan API)
+                const response = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(titulo)}&limit=1`);
+                const result = await response.json();
+
+                if (result.data && result.data.length > 0) {
+                    const animeData = result.data[0];
+                    
+                    // Extrai a URL da imagem de capa grande e o título oficial
+                    const urlImagem = animeData.images.jpg.large_image_url;
+                    const tituloOficial = animeData.title;
+
+                    // Preenche automaticamente o campo ImagemUrl do teu formulário C#
+                    if (document.getElementById("Anime_ImagemUrl")) {
+                        document.getElementById("Anime_ImagemUrl").value = urlImagem;
+                    }
+
+                    // Sugere o título oficial bem formatado no campo de texto
+                    this.value = tituloOficial;
+                    
+                    console.log("Anime encontrado com sucesso:", tituloOficial);
+                }
+            } catch (error) {
+                console.error("Erro ao integrar com a API de Animes:", error);
+            }
+        });
+    </script>
+}
 </script>

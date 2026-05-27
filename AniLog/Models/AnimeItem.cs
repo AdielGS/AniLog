@@ -10,6 +10,9 @@ namespace AniLog.Models
         public string ImagemUrl { get; set; }
         public string Status { get; set; }
         public int Nota { get; set; }
+        public string? Sinopse { get; set; }
+        public int? TotalEpisodios { get; set; }
+        public int EpisodioAtual { get; set; } = 0;
 
         // Vínculo com o usuário que cadastrou
         public int UsuarioId { get; set; }

@@ -6,24 +6,23 @@
 
 <div class="container mt-5" style="max-width: 450px;">
     <div class="card shadow-sm p-4">
-        <h3 class="fw-bold mb-1">Entrar no ANILOG</h3>
-        <p class="text-muted small mb-4">Insira os seus dados de acesso.</p>
+        <h3 class="fw-bold mb-1 text-center">Entrar no ANILOG</h3>
+        <p class="text-muted small mb-4 text-center">Insira as suas credenciais de acesso.</p>
 
         @if (!string.IsNullOrEmpty(Model.MensagemErro))
         {
-            <div class="alert alert-danger py-2 small">@Model.MensagemErro</div>
+            <div class="alert alert-danger py-2 small text-center">@Model.MensagemErro</div>
         }
 
-        <form method="post">
-            @Html.AntiForgeryToken()
-
+        <form method="post" asp-page="/Autenticacao/Login">
             <div class="mb-3">
                 <label class="form-label fw-semibold">E-mail</label>
-                <input type="email" asp-for="Email" class="form-control" autocomplete="email" required />
+                <input type="email" asp-for="Email" class="form-control" placeholder="nome@exemplo.com" required />
             </div>
+
             <div class="mb-4">
                 <label class="form-label fw-semibold">Senha</label>
-                <input type="password" asp-for="Senha" class="form-control" autocomplete="current-password" required />
+                <input type="password" asp-for="Senha" class="form-control" placeholder="••••••••" required />
             </div>
 
             <button type="submit" class="btn btn-primary w-100 py-2 shadow-sm mb-3">Autenticar</button>
