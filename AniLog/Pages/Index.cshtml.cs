@@ -55,5 +55,17 @@ namespace AniLog.Pages
             // Recarrega a página atual atualizada
             return RedirectToPage();
         }
+        public async Task<IActionResult> OnPostAtualizarEpisodioAsync(int animeId, int epAtual)
+        {
+            var anime = await _context.Animes.FindAsync(animeId);
+            if (anime != null)
+            {
+                // Atualiza apenas o progresso do episódio onde o usuário parou
+                anime.EpisodioAtual = epAtual;
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("/Index");
+        }
     }
 }

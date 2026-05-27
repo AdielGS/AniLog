@@ -28,9 +28,19 @@
                             {
                                 <div class="col">
                                     <div class="card h-100 border-0 shadow-xs text-center position-relative p-2">
-                                        <img src="@item.ImagemUrl" class="img-capa-grid mx-auto mt-2 rounded" alt="Capa" style="width: 120px;" />
+                                        <img src="@item.ImagemUrl" class="img-capa-grid mx-auto mt-2 rounded" alt="Capa"
+                                             style="width: 120px; cursor: pointer;"
+                                             onclick="abrirDetalhes('@item.Id', '@item.Titulo', '@item.ImagemUrl', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(item.Sinopse ?? "Sem sinopse disponível."))', '@item.EpisodioAtual', '@(item.TotalEpisodios ?? 0)')" />
+
                                         <div class="card-body p-2 d-flex flex-column justify-content-between">
-                                            <h6 class="card-title text-truncate fw-semibold mb-1" title="@item.Titulo">@item.Titulo</h6>
+                                            <h6 class="card-title text-truncate fw-semibold mb-1" title="@item.Titulo"
+                                                style="cursor: pointer;"
+                                                onclick="abrirDetalhes('@item.Id', '@item.Titulo', '@item.ImagemUrl', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(item.Sinopse ?? "Sem sinopse disponível."))', '@item.EpisodioAtual', '@(item.TotalEpisodios ?? 0)')">
+                                                @item.Titulo
+                                            </h6>
+
+                                            <small class="text-muted d-block mb-2">Ep: @item.EpisodioAtual / @(item.TotalEpisodios ?? 0)</small>
+
                                             <div class="text-warning mb-2 small">
                                                 @for (int i = 1; i <= 5; i++)
                                                 {
@@ -70,11 +80,21 @@
                             {
                                 <div class="col">
                                     <div class="card h-100 border-0 shadow-xs text-center p-2">
-                                        <img src="@item.ImagemUrl" class="img-capa-grid mx-auto mt-2 rounded" alt="Capa" style="width: 120px;" />
+                                        <img src="@item.ImagemUrl" class="img-capa-grid mx-auto mt-2 rounded" alt="Capa"
+                                             style="width: 120px; cursor: pointer;"
+                                             onclick="abrirDetalhes('@item.Id', '@item.Titulo', '@item.ImagemUrl', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(item.Sinopse ?? "Sem sinopse disponível."))', '@item.EpisodioAtual', '@(item.TotalEpisodios ?? 0)')" />
+
                                         <div class="card-body p-2 d-flex flex-column justify-content-between">
-                                            <h6 class="card-title text-truncate fw-semibold mb-1" title="@item.Titulo">@item.Titulo</h6>
+                                            <h6 class="card-title text-truncate fw-semibold mb-1" title="@item.Titulo"
+                                                style="cursor: pointer;"
+                                                onclick="abrirDetalhes('@item.Id', '@item.Titulo', '@item.ImagemUrl', '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(item.Sinopse ?? "Sem sinopse disponível."))', '@item.EpisodioAtual', '@(item.TotalEpisodios ?? 0)')">
+                                                @item.Titulo
+                                            </h6>
+
+                                            <small class="text-muted d-block mb-2">Ep: @item.EpisodioAtual / @(item.TotalEpisodios ?? 0)</small>
+
                                             <div class="mb-2">
-                                                <span class="badge-aguardando">Planejado</span>
+                                                <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">Planejado</span>
                                             </div>
                                             <div class="d-flex gap-2">
                                                 <a asp-page="/Animes/Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm w-50">Editar</a>
@@ -92,4 +112,79 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="animeDetalhesModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow" style="border-radius: 20px;">
+                <div class="modal-header border-0 bg-light rounded-top-4">
+                    <h5 class="fw-bold m-0" id="modalTitulo">Nome do Anime</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-3 mb-md-0">
+                            <img id="modalImagem" src="" class="img-fluid rounded shadow-sm" style="max-height: 280px; object-fit: cover;" />
+                        </div>
+                        <div class="col-md-8 d-flex flex-column justify-content-between">
+                            <div>
+                                <h6 class="fw-bold text-muted small text-uppercase mb-1">Sinopse</h6>
+                                <p id="modalSinopse" class="text-secondary small mb-4" style="text-align: justify; line-height: 1.6; max-height: 150px; overflow-y: auto;">
+                                    Carregando...
+                                </p>
+                            </div>
+
+                            <div class="p-3 bg-light rounded border d-flex align-items-center justify-content-between">
+                                <div>
+                                    <span class="fw-semibold d-block small">Progresso de Episódios</span>
+                                    <small class="text-muted">Onde você parou</small>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <form method="post" asp-page-handler="AtualizarEpisodio" class="d-flex align-items-center gap-2">
+                                        <input type="hidden" name="animeId" id="modalAnimeId" />
+
+                                        <button type="button" class="btn btn-sm btn-secondary rounded-circle px-2" onclick="alterarContador(-1)">-</button>
+                                        <input type="number" name="epAtual" id="modalEpAtual" class="form-control form-control-sm text-center fw-bold" style="width: 65px;" min="0" />
+                                        <span class="text-muted fw-medium small" id="modalTotalEps">/ --</span>
+                                        <button type="button" class="btn btn-sm btn-secondary rounded-circle px-2" onclick="alterarContador(1)">+</button>
+
+                                        <button type="submit" class="btn btn-sm btn-primary ms-2 px-3">Salvar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            function abrirDetalhes(id, titulo, imagem, sinopse, epAtual, totalEps) {
+                document.getElementById('modalAnimeId').value = id;
+                document.getElementById('modalTitulo').innerText = titulo;
+                document.getElementById('modalImagem').src = imagem;
+                document.getElementById('modalSinopse').innerText = sinopse ? sinopse : "Sinopse não cadastrada.";
+                document.getElementById('modalEpAtual').value = epAtual;
+                document.getElementById('modalTotalEps').innerText = totalEps > 0 ? `/ ${totalEps}` : '/ --';
+
+                // Garante o limite máximo de episódios no botão de +
+                window.maxEps = parseInt(totalEps) > 0 ? parseInt(totalEps) : 9999;
+
+                // Comando nativo do Bootstrap 5 para abrir o modal na tela
+                var meuModal = new bootstrap.Modal(document.getElementById('animeDetalhesModal'));
+                meuModal.show();
+            }
+
+            function alterarContador(valor) {
+                var input = document.getElementById('modalEpAtual');
+                var atual = parseInt(input.value) || 0;
+                var novoValor = atual + valor;
+
+                if (novoValor >= 0 && novoValor <= window.maxEps) {
+                    input.value = novoValor;
+                }
+            }
+        </script>
+    }
 </div>
