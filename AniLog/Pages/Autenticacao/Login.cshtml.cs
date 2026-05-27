@@ -19,7 +19,6 @@ namespace AniLog.Pages.Autenticacao
         private readonly ApplicationDbContext _context;
         public LoginModel(ApplicationDbContext context) => _context = context;
 
-        // CORREÇÃO CRUCIAL: Adicionados os [BindProperty] para o C# conseguir ler os inputs
         [BindProperty]
         public string Email { get; set; }
 
@@ -35,7 +34,6 @@ namespace AniLog.Pages.Autenticacao
 
         public async Task<IActionResult> OnPostAsync()
         {
-            // Validação simples de segurança
             if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Senha))
             {
                 MensagemErro = "Por favor, preencha todos os campos.";
@@ -44,7 +42,6 @@ namespace AniLog.Pages.Autenticacao
 
             var hash = GerarHash(Senha);
 
-            // Faz a busca exata convertendo para minúsculas
             var usuario = await _context.Usuarios
                 .FirstOrDefaultAsync(u => u.Email.Trim().ToLower() == Email.Trim().ToLower() && u.SenhaHash == hash);
 
