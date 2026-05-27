@@ -10,7 +10,7 @@ namespace AniLog.Data
         {
         }
 
-        // Aqui nós dizemos que o Model AnimeItem vai virar uma tabela no banco chamada "Animes"
+        
         public DbSet<AnimeItem> Animes { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
     }
